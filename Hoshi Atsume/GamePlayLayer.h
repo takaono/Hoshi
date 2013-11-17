@@ -15,13 +15,25 @@
 #define ICON_SIZE_H 87
 
 
-enum {
+enum
+{
 	kTagTileMap = 1,
 }GamePlayNodeTags;
+
+
+enum
+{
+    moveUp = 1,
+    moveDown,
+    moveLeft,
+    moveRight
+} moveDirection;
+
 
 @interface GamePlayLayer : CCLayer
 {
     CGSize size_;
+    BOOL onMove_;
     CCTMXLayer *metaInfo_;
     CCSprite *girl_;
 }
