@@ -2,7 +2,7 @@
 //  GamePlayLayer.m
 //  Hoshi Atsume
 //
-//  Created by Takeshi Ugajin on 14/11/2013.
+//  Created by T.ONO on 2013.
 //  Copyright 2013 T.ONO. All rights reserved.
 //
 
@@ -27,7 +27,10 @@
 {
     if((self=[super init]))
     {
-        CGSize size = [[CCDirector sharedDirector] winSize];
+        size_ = [[CCDirector sharedDirector] winSize];
+        
+        CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"hoshi_map.tmx"];
+		[self addChild:map z:0 tag:kTagTileMap];
         
         __block id copy_self = self;
         
@@ -37,7 +40,9 @@
         
         CCMenu *menu = [CCMenu menuWithItems:endLabel, nil];
         
-        [menu setPosition:ccp( size.width / 2, size.height / 2)];
+        [menu setPosition:ccp( size_.width / 2, size_.height / 2)];
+        
+        menu.visible = NO;
         
         [self addChild:menu];
     }

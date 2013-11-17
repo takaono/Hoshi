@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="15" height="10" tilewidth="103" tileheight="83">
+ <tileset firstgid="1" name="test" tilewidth="103" tileheight="175">
+  <image source="ortho-test1.png" width="1024" height="1024"/>
+  <tile id="40">
+   <properties>
+    <property name="Collidable" value="True"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Base" width="15" height="10">
+  <properties>
+   <property name="cc_alpha_func" value="0.5"/>
+   <property name="cc_vertexz" value="automatic"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxTYWBgUKEAC5KBsenFZ54KkeoI2YVLLzb/4HMfNjlK3UBsWJHqB0riSJsCDABa1w8g
+  </data>
+ </layer>
+ <layer name="Objects" width="15" height="10" visible="0">
+  <properties>
+   <property name="cc_alpha_func" value="0.5"/>
+   <property name="cc_vertexz" value="automatic"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwx3wArEyne0EABeMADE=
+  </data>
+ </layer>
+ <layer name="Info" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzTZGBg0KQAkwOw6cVnniaR6gjZhUsvNv/gcx82OUrdQIxefPpx+YHSOCIXAwD3QQpB
+  </data>
+ </layer>
+</map>

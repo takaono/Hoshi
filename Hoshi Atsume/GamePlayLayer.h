@@ -2,7 +2,7 @@
 //  GamePlayLayer.h
 //  Hoshi Atsume
 //
-//  Created by Takeshi Ugajin on 14/11/2013.
+//  Created by T.ONO on 2013.
 //  Copyright 2013 T.ONO. All rights reserved.
 //
 
@@ -10,8 +10,13 @@
 #import "cocos2d.h"
 #import "ResultLayer.h"
 
-@interface GamePlayLayer : CCLayer {
-    
+enum {
+	kTagTileMap = 1,
+}GamePlayNodeTags;
+
+@interface GamePlayLayer : CCLayer
+{
+    CGSize size_;
 }
 
 +(CCScene *) scene;

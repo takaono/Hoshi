@@ -2,7 +2,7 @@
 //  IntroLayer.m
 //  Hoshi Atsume
 //
-//  Created by T.ONO.
+//  Created by T.ONO on 2013.
 //  Copyright T.ONO 2013. All rights reserved.
 //
 
