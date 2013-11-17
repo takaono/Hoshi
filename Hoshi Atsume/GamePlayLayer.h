@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "ResultLayer.h"
+#import "AlphaTestSprite.h"
 
 
 #define ICON_SIZE_W 51.5
@@ -35,7 +36,7 @@ enum
     CGSize size_;
     BOOL onMove_;
     CCTMXLayer *metaInfo_;
-    CCSprite *girl_;
+    AlphaTestSprite *girl_;
 }
 
 +(CCScene *) scene;

@@ -57,6 +57,8 @@
         menu.visible = NO;
         
         [self addChild:menu];
+        
+        [self schedule:@selector(reorderZIndex:)];
     }
     
     return self;
@@ -74,6 +76,8 @@
 {
 	[super onEnter];
     [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+    
+    [[CCDirector sharedDirector] setProjection:kCCDirectorProjection2D];
 }
 
 -(void) onExit
@@ -179,5 +183,23 @@
 }
 
 
+-(void)reorderZIndex:(ccTime)dt
+{
+	CGPoint p = [girl_ position];
+    
+    float newZ = [self zIndexAtPosition:p];
+    
+	[girl_ setVertexZ: newZ];
+}
+
+
+-(float) zIndexAtPosition:(CGPoint)position
+{
+    position = CC_POINT_POINTS_TO_PIXELS(position);
+    
+    float z = -(position.y - 77) / 87;
+    
+    return z;
+}
 
 @end
