@@ -32,6 +32,15 @@
         CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"hoshi_map.tmx"];
 		[self addChild:map z:0 tag:kTagTileMap];
         
+        metaInfo_ = [map layerNamed:@"Info"];
+        metaInfo_.visible = NO;
+        
+        girl_ = [CCSprite spriteWithFile:@"ortho-test1.png" rect:CGRectMake(ICON_SIZE_W*1+1, ICON_SIZE_H*0, ICON_SIZE_W, ICON_SIZE_H)];
+		[map addChild:girl_];
+		[girl_ retain];
+		[girl_ setAnchorPoint:ccp(0.5f,0.5f)];
+        [girl_ setPosition:ccp(51.5 + 51.5/2, 41.5*2 + 25)];
+        
         __block id copy_self = self;
         
         CCMenuItem *endLabel = [CCMenuItemImage itemWithNormalImage:@"game_end.png" selectedImage:@"game_end_pressed.png" block:^(id sender){
@@ -53,6 +62,7 @@
 
 -(void) dealloc
 {
+    [girl_ release];
     [super dealloc];
 }
 

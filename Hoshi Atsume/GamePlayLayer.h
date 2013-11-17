@@ -10,6 +10,11 @@
 #import "cocos2d.h"
 #import "ResultLayer.h"
 
+
+#define ICON_SIZE_W 51.5
+#define ICON_SIZE_H 87
+
+
 enum {
 	kTagTileMap = 1,
 }GamePlayNodeTags;
@@ -17,6 +22,8 @@ enum {
 @interface GamePlayLayer : CCLayer
 {
     CGSize size_;
+    CCTMXLayer *metaInfo_;
+    CCSprite *girl_;
 }
 
 +(CCScene *) scene;
