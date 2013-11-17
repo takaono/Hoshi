@@ -133,16 +133,19 @@
     
     if(!onMove_)
     {
-        onMove_ = YES;
-        id move = [CCMoveTo actionWithDuration:moveDuration position:nextPos];
-        CCEaseInOut *ease = [CCEaseInOut actionWithAction:move rate:1];
-        CCCallBlock* block = [CCCallBlock actionWithBlock:^{
-            onMove_ = NO;
-        }];
-        
-        CCSequence* seq = [CCSequence actions:ease, block, nil];
-        
-        [girl_ runAction: seq];
+        if([self checkCollidable:nextPos])
+        {
+            onMove_ = YES;
+            id move = [CCMoveTo actionWithDuration:moveDuration position:nextPos];
+            CCEaseInOut *ease = [CCEaseInOut actionWithAction:move rate:1];
+            CCCallBlock* block = [CCCallBlock actionWithBlock:^{
+                onMove_ = NO;
+            }];
+            
+            CCSequence* seq = [CCSequence actions:ease, block, nil];
+            
+            [girl_ runAction: seq];
+        }
     }
 }
 
@@ -201,5 +204,44 @@
     
     return z;
 }
+
+
+-(BOOL)checkCollidable:(CGPoint)position
+{
+    CCTMXTiledMap *map = (CCTMXTiledMap*)[self getChildByTag:kTagTileMap];
+    
+    CGPoint tileCoord = [self tileCoordForPosition:position];
+    
+    int tileGid = [metaInfo_ tileGIDAt:tileCoord];
+    
+    if (tileGid)
+    {
+        NSDictionary *properties = [map propertiesForGID:tileGid];
+        
+        if (properties)
+        {
+            NSString *collision = properties[@"Collidable"];
+            
+            if (collision && [collision isEqualToString:@"True"])
+            {
+                return NO;
+            }
+        }
+    }
+    
+    return YES;
+}
+
+
+- (CGPoint)tileCoordForPosition:(CGPoint)position
+{
+    CCTMXTiledMap *map = (CCTMXTiledMap*)[self getChildByTag:kTagTileMap];
+    
+    int x = position.x / map.tileSize.width * 2;
+    int y = (((map.mapSize.height * map.tileSize.height / 2) - position.y) / map.tileSize.height * 2)+1;
+    
+    return ccp(x, y);
+}
+
 
 @end
