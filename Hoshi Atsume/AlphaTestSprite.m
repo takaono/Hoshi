@@ -11,6 +11,7 @@
 
 @implementation AlphaTestSprite
 
+
 -(void) draw
 {
     [self setShaderProgram:[[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColorAlphaTest]];

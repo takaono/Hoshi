@@ -10,8 +10,11 @@
 #import "cocos2d.h"
 #import "AlphaTestSprite.h"
 
-@interface StarSprite : AlphaTestSprite {
-    
+@interface StarSprite : AlphaTestSprite
+{
+    CGPoint tilePos_;
 }
+
+@property (nonatomic, readwrite) CGPoint TilePos;
 
 @end

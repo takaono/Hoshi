@@ -27,6 +27,8 @@
 {
     if((self=[super init]))
     {
+        srandom(time(NULL));
+        
         onMove_ = NO;
         size_ = [[CCDirector sharedDirector] winSize];
         
@@ -36,7 +38,7 @@
         metaInfo_ = [map layerNamed:@"Info"];
         metaInfo_.visible = NO;
         
-        girl_ = [CCSprite spriteWithFile:@"ortho-test1.png" rect:CGRectMake(ICON_SIZE_W*1+1, ICON_SIZE_H*0, ICON_SIZE_W, ICON_SIZE_H)];
+        girl_ = [AlphaTestSprite spriteWithFile:@"ortho-test1.png" rect:CGRectMake(ICON_SIZE_W*1+1, ICON_SIZE_H*0, ICON_SIZE_W, ICON_SIZE_H)];
 		[map addChild:girl_];
 		[girl_ retain];
 		[girl_ setAnchorPoint:ccp(0.5f,0.5f)];
@@ -44,12 +46,17 @@
         
         [map runAction:[CCFollow actionWithTarget:girl_ worldBoundary:CGRectMake(0, 0, map.contentSize.width, map.contentSize.height)]];
         
+        starSet_ = [[CCArray alloc] initWithCapacity:10];
+        
         for(int i = 0; i < MAX_STAR_NUM; i++)
         {
             StarSprite *star = [StarSprite spriteWithFile:@"ortho-test1.png" rect:CGRectMake(ICON_SIZE_W*7, ICON_SIZE_H*3, ICON_SIZE_W, ICON_SIZE_H)];
             [map addChild:star];
             
-            [star setPosition:ccp(100+10*i, 100)];
+            CGPoint coord = [self generateTileCoord];
+            
+            [star setPosition:[self centerOfTileAtX:(int)coord.x y:(int)coord.y]];
+            star.TilePos = coord;
             
             [star setVertexZ:[self zIndexAtPosition:star.position]];
             [starSet_ addObject:star];
@@ -254,6 +261,71 @@
     int y = (((map.mapSize.height * map.tileSize.height / 2) - position.y) / map.tileSize.height * 2)+1;
     
     return ccp(x, y);
+}
+
+
+-(CGPoint)generateTileCoord
+{
+    CCTMXTiledMap *map = (CCTMXTiledMap*)[self getChildByTag:kTagTileMap];
+    
+    while (YES)
+    {
+        int col = CCRANDOM_0_1()*map.mapSize.width;
+        int row = CCRANDOM_0_1()*map.mapSize.height;
+        
+        CGPoint coord = ccp(col, row);
+        
+        BOOL foundSame = NO;
+        for(StarSprite* star in starSet_)
+		{
+			if((int)star.TilePos.x == (int)coord.x && (int)star.TilePos.y == (int)coord.y)
+			{
+				foundSame = YES;
+			}
+            
+		}
+        
+        if ([self checkCollidableWithTileCoord:coord] && !foundSame)
+        {
+            return coord;
+        }
+    }
+}
+
+
+-(BOOL)checkCollidableWithTileCoord:(CGPoint)coord
+{
+    CCTMXTiledMap *map = (CCTMXTiledMap*)[self getChildByTag:kTagTileMap];
+    
+    int tileGid = [metaInfo_ tileGIDAt:coord];
+    
+    if (tileGid)
+    {
+        NSDictionary *properties = [map propertiesForGID:tileGid];
+        
+        if (properties)
+        {
+            NSString *collision = properties[@"Collidable"];
+            
+            if (collision && [collision isEqualToString:@"True"])
+            {
+                return NO;
+            }
+        }
+    }
+    return YES;
+    
+}
+
+
+-(CGPoint)centerOfTileAtX:(int)x y:(int)y
+{
+    CCTMXTiledMap *map = (CCTMXTiledMap*)[self getChildByTag:kTagTileMap];
+    
+    float posX = (x + 1) * map.tileSize.width / 2 - map.tileSize.width / 4;
+    float posY = map.mapSize.height * map.tileSize.height / 2 - map.tileSize.height / 2 * y + 20;
+    
+    return ccp(posX, posY);
 }
 
 
