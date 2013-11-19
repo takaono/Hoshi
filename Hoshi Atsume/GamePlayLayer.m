@@ -76,7 +76,7 @@
         
         menu.visible = NO;
         
-        [self addChild:menu];
+        [self addChild:menu z:0 tag:kTagMenu];
         
         [self schedule:@selector(reorderZIndex:)];
         
@@ -200,8 +200,21 @@
             
             if(achievedAll)
             {
+                CCNode *menu = [self getChildByTag:kTagMenu];
+                
                 [self unschedule:@selector(scheduleGameTime:)];
+                
                 NSLog(@"Result Time:%d", (int)gameMainTimer_);
+                
+                CCDelayTime *delay = [CCDelayTime actionWithDuration:0.5];
+                
+                CCCallBlock *block = [CCCallBlock actionWithBlock:^{
+                    menu.visible = YES;
+                }];
+                
+                CCSequence *seq = [CCSequence actions:delay, block, nil];
+                
+                [self runAction:seq];
             }
         }
     }
@@ -240,7 +253,13 @@
 
 - (void)showGameResult:(id)sender
 {
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[ResultLayer scene] withColor:ccWHITE]];
+    CCScene *scoreScreenScene = [ResultLayer scene];
+	
+    ResultLayer *baseLayer = [scoreScreenScene.children objectAtIndex:0];
+    
+    [baseLayer createScoreLabel:(int)gameMainTimer_];
+    
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scoreScreenScene withColor:ccWHITE]];
 }
 
 

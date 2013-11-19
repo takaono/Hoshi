@@ -21,7 +21,8 @@
 enum
 {
 	kTagTileMap = 1,
-    kTagMainTimer
+    kTagMainTimer,
+    kTagMenu
 }GamePlayNodeTags;
 
 

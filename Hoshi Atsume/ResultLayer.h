@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
-#import "StartScreenLayer.h"
+#import "GamePlayLayer.h"
 
 @interface ResultLayer : CCLayer {
     
 }
 
 +(CCScene *) scene;
+-(void)createScoreLabel:(int)score;
 
 @end
