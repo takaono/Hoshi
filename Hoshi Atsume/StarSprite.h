@@ -13,8 +13,12 @@
 @interface StarSprite : AlphaTestSprite
 {
     CGPoint tilePos_;
+    BOOL achieved_;
 }
 
 @property (nonatomic, readwrite) CGPoint TilePos;
+@property (nonatomic, readwrite) BOOL Achieved;
+
+-(void)runAchievedEffect;
 
 @end

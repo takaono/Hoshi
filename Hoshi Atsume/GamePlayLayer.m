@@ -166,6 +166,23 @@
             
             [girl_ runAction: seq];
         }
+        
+        if([self hitStar:nextPos])
+        {
+            BOOL achievedAll = YES;
+            for(StarSprite* star in starSet_)
+            {
+                if(!star.Achieved)
+                {
+                    achievedAll = NO;
+                }
+            }
+            
+            if(achievedAll)
+            {
+                NSLog(@"Collected all.");
+            }
+        }
     }
 }
 
@@ -326,6 +343,25 @@
     float posY = map.mapSize.height * map.tileSize.height / 2 - map.tileSize.height / 2 * y + 20;
     
     return ccp(posX, posY);
+}
+
+
+-(BOOL) hitStar:(CGPoint)pos
+{
+    CGPoint coord = [self tileCoordForPosition:pos];
+    
+    for(StarSprite* star in starSet_)
+    {
+        if((int)star.TilePos.x == (int)coord.x && (int)star.TilePos.y == (int)coord.y && star.visible == YES)
+        {
+            //star.visible = NO;
+            [star runAchievedEffect];
+            star.Achieved = YES;
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 
