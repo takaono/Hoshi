@@ -10,10 +10,12 @@
 #import "cocos2d.h"
 #import "ResultLayer.h"
 #import "AlphaTestSprite.h"
+#import "StarSprite.h"
 
 
 #define ICON_SIZE_W 51.5
 #define ICON_SIZE_H 87
+#define MAX_STAR_NUM 5
 
 
 enum
@@ -37,6 +39,7 @@ enum
     BOOL onMove_;
     CCTMXLayer *metaInfo_;
     AlphaTestSprite *girl_;
+    CCArray *starSet_;
 }
 
 +(CCScene *) scene;

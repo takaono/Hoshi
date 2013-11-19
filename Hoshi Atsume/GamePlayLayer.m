@@ -44,6 +44,18 @@
         
         [map runAction:[CCFollow actionWithTarget:girl_ worldBoundary:CGRectMake(0, 0, map.contentSize.width, map.contentSize.height)]];
         
+        for(int i = 0; i < MAX_STAR_NUM; i++)
+        {
+            StarSprite *star = [StarSprite spriteWithFile:@"ortho-test1.png" rect:CGRectMake(ICON_SIZE_W*7, ICON_SIZE_H*3, ICON_SIZE_W, ICON_SIZE_H)];
+            [map addChild:star];
+            
+            [star setPosition:ccp(100+10*i, 100)];
+            
+            [star setVertexZ:[self zIndexAtPosition:star.position]];
+            [starSet_ addObject:star];
+            [star setShaderProgram:[[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColorAlphaTest]];
+        }
+        
         __block id copy_self = self;
         
         CCMenuItem *endLabel = [CCMenuItemImage itemWithNormalImage:@"game_end.png" selectedImage:@"game_end_pressed.png" block:^(id sender){
@@ -68,6 +80,7 @@
 -(void) dealloc
 {
     [girl_ release];
+    [starSet_ release];
     [super dealloc];
 }
 
@@ -109,7 +122,7 @@
     
     float moveDuration = 0.3;
     
-    switch (direction)
+    switch(direction)
     {
         case 1:
             nextPos = ccpAdd(girl_.position, ccp(0, map.tileSize.height / 2));
@@ -150,7 +163,7 @@
 }
 
 
--(int) moveDirection:(CGPoint)vec
+-(int)moveDirection:(CGPoint)vec
 {
     int direction;
     float angle = ccpToAngle(vec)*180/M_PI;
@@ -196,7 +209,7 @@
 }
 
 
--(float) zIndexAtPosition:(CGPoint)position
+-(float)zIndexAtPosition:(CGPoint)position
 {
     position = CC_POINT_POINTS_TO_PIXELS(position);
     

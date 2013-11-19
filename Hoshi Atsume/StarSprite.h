@@ -1,5 +1,5 @@
 //
-//  AlphaTestSprite.h
+//  StarSprite.h
 //  Hoshi Atsume
 //
 //  Created by T.ONO on 2013.
@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "AlphaTestSprite.h"
 
-@interface AlphaTestSprite : CCSprite {
+@interface StarSprite : AlphaTestSprite {
     
 }
 
