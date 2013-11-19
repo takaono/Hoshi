@@ -21,6 +21,7 @@
 enum
 {
 	kTagTileMap = 1,
+    kTagMainTimer
 }GamePlayNodeTags;
 
 
@@ -40,6 +41,7 @@ enum
     CCTMXLayer *metaInfo_;
     AlphaTestSprite *girl_;
     CCArray *starSet_;
+    ccTime gameMainTimer_;
 }
 
 +(CCScene *) scene;

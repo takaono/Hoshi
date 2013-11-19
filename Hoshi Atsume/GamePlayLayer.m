@@ -30,6 +30,7 @@
         srandom(time(NULL));
         
         onMove_ = NO;
+        gameMainTimer_ = 0.0;
         size_ = [[CCDirector sharedDirector] winSize];
         
         CCTMXTiledMap *map = [CCTMXTiledMap tiledMapWithTMXFile:@"hoshi_map.tmx"];
@@ -78,6 +79,25 @@
         [self addChild:menu];
         
         [self schedule:@selector(reorderZIndex:)];
+        
+        
+        CCLabelTTF *mainTimerLabel = [CCLabelTTF labelWithString:@"0 s" fontName:@"Helvetica" fontSize:48];
+        
+        mainTimerLabel.anchorPoint = ccp(0.0, 1.0);
+        
+        mainTimerLabel.position = ccp(20, size_.height - 10);
+        
+        mainTimerLabel.scale = 0.5;
+        
+        mainTimerLabel.tag = kTagMainTimer;
+        
+        mainTimerLabel.color = ccc3(255, 255, 255);
+        
+        mainTimerLabel.visible = YES;
+        
+        [self addChild: mainTimerLabel];
+        
+        [self schedule:@selector(scheduleGameTime:)];
     }
     
     return self;
@@ -180,7 +200,8 @@
             
             if(achievedAll)
             {
-                NSLog(@"Collected all.");
+                [self unschedule:@selector(scheduleGameTime:)];
+                NSLog(@"Result Time:%d", (int)gameMainTimer_);
             }
         }
     }
@@ -364,5 +385,13 @@
     return NO;
 }
 
+
+-(void)scheduleGameTime:(ccTime)dlt
+{
+    gameMainTimer_ += dlt;
+    
+    CCLabelTTF *mainTimer = (CCLabelTTF*)[self getChildByTag:kTagMainTimer];
+    [mainTimer setString:[NSString stringWithFormat:@"%d s", (int)gameMainTimer_]];
+}
 
 @end
